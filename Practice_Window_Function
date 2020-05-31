@@ -1,0 +1,35 @@
+-- CREATE THE DATABASE AND USE IT 
+CREATE SCHEMA Practice_Window_Aggregation;
+USE Practice_Window_Aggregation;
+
+
+-- Create a table for practice
+CREATE TABLE New_order(
+Order_ID INT NOT NULL UNIQUE auto_increment ,
+Item_name Varchar(10),
+Amount Decimal(4,2)
+);
+
+
+
+-- INSERTING DUMMY DATA
+INSERT INTO NEW_ORDER (Item_name,Amount) VALUES
+('Samosa',10.00);
+('Veg.Burger',50.00),
+('Pepsi',20.00),
+('Ice Cream',20.0),
+('Pav Bhaji',40.0);
+
+
+
+-- PRACTICE OVER ()
+SELECT 
+	   SUM(Amount) AS 'Item Cost', 
+     ITEM_NAME AS Food ,
+     SUM(AMOUNT) OVER() AS Total,
+     SUM(AMOUNT) OVER(PARTITION BY ITEM_NAME) AS Total,
+     CONCAT(ROUND(SUM(AMOUNT) / SUM(AMOUNT) OVER(),2) * 100,' %') AS Percentage_of_Total,
+     DENSE_RANK() OVER (ORDER BY AMOUNT) AS 'Rank'
+FROM NEW_ORDER
+GROUP BY Food;
+
